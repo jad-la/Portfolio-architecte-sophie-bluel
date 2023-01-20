@@ -15,9 +15,9 @@
 	<h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
 	<nav>
 		<ul>
-			<li>projets</li>
+			<li><a href="index.html">projets</a></li>
 			<li>contact</li>
-			<li>login</li>
+			<li><a href="login.html">login</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -36,7 +36,13 @@
 	</section>
 	<section id="portfolio">
 		<h2>Mes Projets</h2>
-		<div class="gallery">
+		<div class="filtres">
+			<button class="filtre-tous filtre">Tous</button>
+			<button class="filtre-objet filtre">Objets</button>
+			<button class="filtre-appart filtre">Appartements</button>
+			<button class="filtre-hotel filtre">Hôtels & restaurants</button>
+		</div>
+			<div class="gallery">
 			<figure>
 				<img src="assets/images/abajour-tahina.png" alt="Abajour Tahina">
 				<figcaption>Abajour Tahina</figcaption>
@@ -105,5 +111,7 @@
 		</ul>
 	</nav>
 </footer>
+
+<script src="index.js"></script>
 </body>
 </html>
