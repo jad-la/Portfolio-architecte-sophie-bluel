@@ -125,6 +125,27 @@ li:hover {
 	text-align: center;
 	margin-bottom: 1em;
 }
+.filtres{
+	display: flex;
+	justify-content: space-between;
+	width: 60%;
+	margin: 20px auto;
+}
+.filtre{
+	padding: 5px 15px;
+	font-family: 'Syne';
+	font-weight: 700;
+	font-size: 16px;
+	line-height: 19px;
+	text-align: center;
+	color: #1D6154;
+	border:1px solid #1D6154;
+	border-radius: 25px;
+}
+.filtre:active{
+	background-color: #1D6154;
+	color: white;
+}
 .gallery {
 	width: 100%;
 	display: grid;
@@ -186,3 +207,52 @@ footer nav ul {
 	margin: 2em
 }
 
+/* **************************page de connextion******************************** */
+.titre-login{
+	text-align: center;
+	margin-bottom: 35px;
+}
+form{
+	width: 40%;
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+}
+.form-contenu{
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 30px;
+	padding: 0 30px;
+}
+.form-contenu label{
+	margin-bottom: 8px;
+}
+.form-contenu input{
+	height: 50px;
+	border: none;
+	background: #FFFFFF;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+form #bouton-login{
+	height: 36px;
+	background: #1D6154;
+	border-radius: 60px;
+	color: white;
+	width: 45%;
+	border: none;
+	margin: 0 auto;
+	text-align: center;
+	font-family: 'Syne';
+	font-weight: 700;
+	font-size: 14px;
+}
+.code-oublie{
+	margin: 28px auto;
+	text-align: center;
+	font-family: 'Work Sans';
+	font-weight: 500;
+	font-size: 14px;
+	text-decoration: underline ;
+	text-decoration-color: #3D3D3D;
+	;
+}
