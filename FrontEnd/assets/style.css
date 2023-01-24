@@ -326,6 +326,10 @@ form #bouton-login{
 	margin-right: 5px;
 	font-size: 18px;
 }
+.modif-article{
+	position: absolute;
+	top: 20px;
+}
 
 .modif-projet{
 	font-weight: 400;
@@ -344,21 +348,32 @@ form #bouton-login{
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	display: none;
 	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 100%;
 	background: rgba(0, 0, 0, 0.8);
+	
 }
 .modal-wrapper{
-	width: 630px;
-	height: 730px;
+	width: 40%;
+	height: 85%;
 	margin: auto;
 	padding: 20px 50px;
 	overflow: auto;
 	background-color: white;
 
+}
+.btn-close{
+	border: none;
+	background: transparent;
+	float: right;
+	cursor: pointer;
+}
+.modal-wrapper h2{
+	margin-top: 30px;
 }
 .projet{
 	margin: auto;
@@ -373,4 +388,24 @@ form #bouton-login{
 }
 .projet img{
 	width: 100%;
+}
+.ajout-supp{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.ajout-supp button{
+	height: 35px;
+	width: 200px;
+	margin-top: 25px;
+	border: none;
+}
+.btn-ajout:first-child{
+	background-color: #1D6154;
+	color: white;
+	border-radius: 25px;
+}
+.btn-supp:last-child{
+	background: transparent;
+	color: #D65353;
 }
