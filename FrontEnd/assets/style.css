@@ -58,6 +58,7 @@ header {
 	justify-content: space-between;
 	margin: 50px 0
 }
+
 section {
 	margin: 50px 0
 }
@@ -99,9 +100,11 @@ li:hover {
 	color: #B1663C;
 }
 #introduction {
+	position: relative;
 	display: flex;
 	align-items: center;
 }
+
 #introduction figure {
 	flex: 1
 }
@@ -111,8 +114,20 @@ li:hover {
 	width: 80%;
 }
 
+
+
+
 #introduction article {
-	flex: 1
+	flex: 1;
+}
+.modif-article{
+	position: absolute;
+	top: 3em;
+	
+}
+.modif-article i{
+	margin-right: 5px;
+	font-size: 18px;
 }
 #introduction h2 {
 	margin-bottom: 1em;
@@ -125,6 +140,7 @@ li:hover {
 	text-align: center;
 	margin-bottom: 1em;
 }
+
 .filtres{
 	display: flex;
 	justify-content: space-between;
@@ -255,4 +271,106 @@ form #bouton-login{
 	text-decoration: underline ;
 	text-decoration-color: #3D3D3D;
 	;
+}
+
+
+/* *********************Page index-edit*************************** */
+
+	/* *********partie header********** */
+.banniere{
+	display: flex;
+	flex-wrap: wrap;
+
+}
+.banniere-edit{
+	margin: 0 0 35px 0;
+	height: 60px;
+	width: 100vw;
+	background-color: black;
+}
+.banniere-edit div{
+	width: 35%;
+	height: 100%;
+	margin: auto;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+
+}
+.modif-edition{
+	font-size: 16px;
+	color: white;
+	
+}
+.modif-edition i{
+	margin-right: 5px;
+	font-size: 19px;
+}
+.btn-modif{
+	font-family: 'Work Sans';
+	height: 40px;
+	padding: 0 15px;
+	font-size: 14px;
+	text-align: center;
+	background-color: white;
+	border-radius: 25px;
+
+}
+
+	/* *********section introdution******** */
+.modif-fig{
+	margin-top: 13px;
+	margin-left: 57px;
+}
+.modif-fig i{
+	margin-right: 5px;
+	font-size: 18px;
+}
+
+.modif-projet{
+	font-weight: 400;
+	font-size: 14px;
+	margin-left: 3em;
+	color: #000;
+}
+.modif-projet i{
+	margin-right: 5px;
+	font-size: 18px;
+	
+}
+
+	/* **************la modale*************** */
+.modal{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.8);
+}
+.modal-wrapper{
+	width: 630px;
+	height: 730px;
+	margin: auto;
+	padding: 20px 50px;
+	overflow: auto;
+	background-color: white;
+
+}
+.projet{
+	margin: auto;
+	width: 80%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+.projet figure{
+	width: 18%;
+	margin-bottom: 12px;
+}
+.projet img{
+	width: 100%;
 }
