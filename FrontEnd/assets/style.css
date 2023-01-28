@@ -277,18 +277,23 @@ form #bouton-login{
 /* *********************Page index-edit*************************** */
 
 	/* *********partie header********** */
-.banniere{
+#banniere{
 	display: flex;
 	flex-wrap: wrap;
+	margin-top: 0;
 
 }
+
 .banniere-edit{
 	margin: 0 0 35px 0;
 	height: 60px;
 	width: 100vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	background-color: black;
 }
-.banniere-edit div{
+/* .banniere-edit div{
 	width: 35%;
 	height: 100%;
 	margin: auto;
@@ -296,8 +301,9 @@ form #bouton-login{
 	justify-content: space-around;
 	align-items: center;
 
-}
+} */
 .modif-edition{
+	width: 25%;
 	font-size: 16px;
 	color: white;
 	
@@ -305,8 +311,10 @@ form #bouton-login{
 .modif-edition i{
 	margin-right: 5px;
 	font-size: 19px;
+	color: white;
 }
 .btn-modif{
+	width: 25%;
 	font-family: 'Work Sans';
 	height: 40px;
 	padding: 0 15px;
@@ -359,7 +367,7 @@ form #bouton-login{
 }
 .modal-wrapper{
 	width: 40%;
-	height: 85%;
+	height: 50%;
 	margin: auto;
 	padding: 20px 50px;
 	overflow: auto;
@@ -375,20 +383,35 @@ form #bouton-login{
 .modal-wrapper h2{
 	margin-top: 30px;
 }
-.projet{
+.projet-modif{
 	margin: auto;
 	width: 80%;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
 }
-.projet figure{
+.projet-modif figure{
 	width: 18%;
 	margin-bottom: 12px;
+	position: relative;
+	font-size: 12px;
 }
-.projet img{
+.projet-modif img{
 	width: 100%;
 }
+.projet-modif div{
+	width: 13px;
+	height: 13px;
+	padding-top: 2px;
+	position: absolute;
+	top: 2px;
+	right: 3px;
+	background-color: #000;
+	text-align: center;
+	color: white;
+	font-size: 10px;
+}
+
 .ajout-supp{
 	display: flex;
 	flex-direction: column;
@@ -408,4 +431,88 @@ form #bouton-login{
 .btn-supp:last-child{
 	background: transparent;
 	color: #D65353;
+}
+
+/* ************  modale pour ajouter les projets  *********** */
+#modal4{
+	display: none;
+}
+.btn-retour{
+	border: none;
+	background-color: transparent;
+}
+.ajout-projet{
+	margin: auto;
+	width: 100%;
+}
+
+.bloc-tele-img{
+	width: 100%;
+	height: 169px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background-color: #E8F1F6;
+}
+input[type="file"] + label {
+  border: 1px solid rgba(0,0,0,.2);
+  padding: 5px;
+  background: lavender;
+}
+
+.label-image{
+	width: 60%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	
+
+}
+.label-image i{
+	font-size: 3em;
+	color: #616060;
+	margin-bottom: 15px;
+}
+.label-image span{
+	width: 85%;
+	height: 28px;
+	padding-top: 10px;
+	background-color: #CBD6DC;
+	border-radius: 25px;
+	text-align: center;
+	color: #306685;
+	font-family: 'Work Sans';
+	font-size: 14px;
+}
+
+input[type="file"] {
+	height: 0;
+	width: 0;
+	overflow: hidden;
+  }
+.bloc-tele-img img{
+	width: 50%;
+	height: 100%;
+}
+.titre-categorie{
+	font-size: 14px;
+	margin: 10px 0;
+
+}
+.img-info{
+	height: 30px;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+.btn-ajout-projet{
+	width: 55%;
+	height: 33px;
+	margin: auto;
+	background-color: #A7A7A7;
+	font-family: 'Work Sans';
+	font-size: 14px;
+	color: white;
+	border: none;
+	border-radius: 25px;
 }
