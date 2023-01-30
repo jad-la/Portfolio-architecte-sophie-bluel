@@ -280,7 +280,6 @@ form #bouton-login{
 #banniere{
 	display: flex;
 	flex-wrap: wrap;
-	margin-top: 0;
 
 }
 
@@ -324,29 +323,39 @@ form #bouton-login{
 	border-radius: 25px;
 
 }
+nav ul li a {
+	text-decoration: none;
+	color: #000;
+}
 
 	/* *********section introdution******** */
 .modif-fig{
 	margin-top: 13px;
-	margin-left: 57px;
+	margin-left: 47px;
 }
 .modif-fig i{
-	margin-right: 5px;
+	margin-right:8px;
 	font-size: 18px;
 }
-.modif-article{
+.modif-article {
 	position: absolute;
-	top: 20px;
+	top: 10px;
 }
-
+.modif-article i{
+	margin-right: 8px;
+}
+.acces-modale{
+	text-decoration: none;
+}
 .modif-projet{
+	font-family: 'Work Sans';
 	font-weight: 400;
 	font-size: 14px;
 	margin-left: 3em;
 	color: #000;
 }
 .modif-projet i{
-	margin-right: 5px;
+	margin-right: 8px;
 	font-size: 18px;
 	
 }
@@ -367,7 +376,7 @@ form #bouton-login{
 }
 .modal-wrapper{
 	width: 40%;
-	height: 50%;
+	height: 70%;
 	margin: auto;
 	padding: 20px 50px;
 	overflow: auto;
@@ -434,7 +443,8 @@ form #bouton-login{
 }
 
 /* ************  modale pour ajouter les projets  *********** */
-#modal4{
+
+.wrapper2{
 	display: none;
 }
 .btn-retour{
