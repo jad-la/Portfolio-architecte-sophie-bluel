@@ -61,7 +61,7 @@
         <h2 class="titre-section-projets">Mes Projets</h2>
         <!-- ------------------Partie modale--------------------- -->
         <aside id="modal3" class="modal" aria-hidden="true" role="dialog" >
-          <div class="modal-wrapper modal-stop">
+          <div class="modal-wrapper modal-stop wrapper1">
              <button class="btn-close"><i class="fa-solid fa-xmark"></i></button>
               <h2>Galerie photo</h2>
               <div class="projet-modif">
@@ -72,38 +72,37 @@
                 <button class="btn-supp">Supprimer la galerie</button> 
               </div>
           </div>
+          <div class="modal-wrapper modal-stop wrapper2">
+             <button class="btn-close close2"><i class="fa-solid fa-xmark"></i></button>
+             <button class="btn-retour"><i class="fa-solid fa-arrow-left"></i></button>
+              <h2>Ajout photo</h2>
+              <form id="ajout" class="ajout-projet" enctype="multipart/form-data">
+                <div class="bloc-tele-img">
+                  <label for="tele-image" class="label-image"><i class="fa-regular fa-image"></i><span>+ Ajouter photo</span></label>
+                  <input
+                    type="file"
+                    id="tele-image"
+                    name="tele-image"
+                    accept=".jpg, .jpeg, .png"
+                    multiple />
+                </div>
+                  <br>
+                  <label for="titre-projet" class="titre-categorie">Titre:</label>
+                  <input type="text" id="titre-projet" name="titre-projet" class="img-info">
+                  <br>
+                  <label for="categorie" class="titre-categorie">Catégorie:</label>
+                  <select id="categorie" name="categorie" class="img-info">
+                    <option value="option1">Objets</option>
+                    <option value="option2">Appartements</option>
+                    <option value="option3">Hotels & restaurants</option>
+                  </select>
+                  <br>
+                  <button type="submit" class="btn-ajout-projet"> Valider</button>
+              </form> 
+          </div>
       </aside>
        <!--  -->
-      <aside id="modal4" class="modal" aria-hidden="true" role="dialog" >
-        <div class="modal-wrapper modal-stop">
-           <button class="btn-close"><i class="fa-solid fa-xmark"></i></button>
-           <button class="btn-retour"><i class="fa-solid fa-arrow-left"></i></button>
-            <h2>Ajout photo</h2>
-            <form id="ajout" class="ajout-projet" enctype="multipart/form-data">
-              <div class="bloc-tele-img">
-                <label for="tele-image" class="label-image"><i class="fa-regular fa-image"></i><span>+ Ajouter photo</span></label>
-                <input
-                  type="file"
-                  id="tele-image"
-                  name="tele-image"
-                  accept=".jpg, .jpeg, .png"
-                  multiple />
-              </div>
-                <br>
-                <label for="titre-projet" class="titre-categorie">Titre:</label>
-                <input type="text" id="titre-projet" name="titre-projet" class="img-info">
-                <br>
-                <label for="categorie" class="titre-categorie">Catégorie:</label>
-                <select id="categorie" name="categorie" class="img-info">
-                  <option value="option1">Objets</option>
-                  <option value="option2">Appartements</option>
-                  <option value="option3">Hotels & restaurants</option>
-                </select>
-                <br>
-                <button type="submit" class="btn-ajout-projet"> Valider</button>
-            </form> 
-        </div>
-      </aside>
+     
         <div class="filtres">
           <button class="filtre-tous filtre">Tous</button>
           <button class="filtre-objet filtre">Objets</button>
