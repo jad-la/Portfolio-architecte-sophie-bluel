@@ -99,19 +99,37 @@ async function genererProjets(projets) {
 recupTravaux().then(() => genererProjets(projets));
 
 //utilisation de filter() pour filtere les catégories des projets
+let categories;
+
+fetch('http://localhost:5678/api/categories')
+  .then(response => response.json())
+  .then(data => {
+    categories = data;
+    // faire autre chose avec les données
+  })
+  .catch(error => console.error(error));
+
+
+
 filtreObjet.addEventListener("click", () => {
-    const projetsFiltrees = projets.filter(projet => projet.category && projet.category.name === 'Objets');
-    genererProjets(projetsFiltrees);
+  const categoriesFiltrees = categories.filter(category => category.name === 'Objets');
+//     const projetsFiltrees = projets.filter(projet => projet.category && projet.category.name === 'Objets');
+    genererProjets(categoriesFiltrees);
+    console.log(categoriesFiltrees);
 });
 
+
 filtreAppart.addEventListener("click", () => {
-    const projetsFiltrees = projets.filter(projet => projet.category && projet.category.name === 'Appartements');
-    genererProjets(projetsFiltrees);
+  const categoriesFiltrees = categories.filter(category => category.name === 'Appartements');
+    // const projetsFiltrees = projets.filter(projet => projet.category && projet.category.name === 'Appartements');
+    genererProjets(categoriesFiltrees);
 });
 filtreHotel.addEventListener("click", () => {
-    const projetsFiltrees = projets.filter(projet => projet.category && projet.category.name === 'Hotels & restaurants');
-    genererProjets(projetsFiltrees);
+  const categoriesFiltrees = categories.filter(category => category.name === 'Hotels & restaurants');
+    // const projetsFiltrees = projets.filter(projet => projet.category && projet.category.name === 'Hotels & restaurants');
+    genererProjets(categoriesFiltrees);
 });
+
 filtreTous.addEventListener("click", () => {
     genererProjets(projets);
 });
@@ -121,9 +139,6 @@ filtreTous.addEventListener("click", () => {
 // ************************Parti Espace utilisateur****************************
 
 const lienLogin = document.getElementById('login-logout')
-const modifImg = document.querySelector('.modif-img')
-const modifIntro = document.querySelector('.modif-intro')
-const titreSectionProjets = document.querySelector('.titre-section-projets')
 function toggleLoginLogout() {
   const token = localStorage.getItem('token');
   if (token) {
@@ -143,9 +158,15 @@ function logoutUser() {
   window.location.assign("login.html");
 }
 window.addEventListener("load", () => {
-  // vérifier si l'utilisateur est connecté en vérifiant si un token est stocké dans le localStorage
   const token = localStorage.getItem('token');
+  // vérifier si l'utilisateur est connecté en vérifiant si un token est stocké dans le localStorage
   if(token) {
+    //cacher la partie filtre
+    const blocFiltres = document.querySelector('.filtres')
+    blocFiltres.style.display = 'none'
+    const modifIntro = document.querySelector('.modif-intro')
+    const modifImg = document.querySelector('.modif-img')
+    const titreSectionProjets = document.querySelector('.titre-section-projets')
   toggleLoginLogout();
   //creation des éléments pour la partie header
   const entete = document.getElementById('banniere')
@@ -167,7 +188,7 @@ window.addEventListener("load", () => {
 
   //creation des éléments pour la partie introdution 
   const modifFig = document.createElement('p');
-  modifFig.classList.add('modif-img');
+  modifFig.classList.add('modif-fig');
   modifFig.innerText = 'modifier';
   modifImg.appendChild(modifFig);
   const iconeModiFig = document.createElement('i');
@@ -176,6 +197,7 @@ window.addEventListener("load", () => {
 
   const modifArticle = document.createElement('p');
   modifIntro.insertBefore(modifArticle, modifIntro.firstChild);
+  modifArticle.classList.add('modif-article');
   modifArticle.innerText= 'modifier';
   const iconeModifArticle = document.createElement('i');
   iconeModifArticle.classList.add('fa-regular', 'fa-pen-to-square');
@@ -192,21 +214,20 @@ window.addEventListener("load", () => {
   spanAccesModale.innerText = 'modifier';
   const iconeAccesModale = document.createElement('i');
   iconeAccesModale.classList.add('fa-regular', 'fa-pen-to-square');
-  spanAccesModale.appendChild(iconeAccesModale);
+  spanAccesModale.insertBefore(iconeAccesModale, spanAccesModale.firstChild);
 
+  const btnModal = document.querySelector('.open-modal');
+  btnModal.addEventListener('click', openModal);
+  const btnAjout = document.querySelector('.btn-ajout')
+  btnAjout.addEventListener('click', addPhoto)
   }
 });
 
 
 // ********************Partie modale **************************
 
-//modification de contenu de container 
-const btnModal = document.querySelector('.open-modal');
-console.log(btnModal);
-const btnAjout = document.querySelector('.btn-ajout')
+
 let modal = null;
-
-
 
 //création d'une fonction pour fermer la modale 
 const closeModal = (e) =>{
@@ -218,19 +239,20 @@ const closeModal = (e) =>{
     modal.removeEventListener('click', closeModal);
     modal.querySelector('.btn-close').removeEventListener('click', closeModal)
     modal.querySelector('.modal-stop').removeEventListener('click', stopPropagation)
+    const modale2 = document.querySelector('.close2').addEventListener('click', closeModal)
     //on revient sur la valeur initial de la modale
     modal = null;
     
 }
+// fonction pour ouvrir la modale
 const openModal = (e) => {
     e.preventDefault();
     page = "index-edit"
     container = document.querySelector('.projet-modif');
-    const target = document.querySelector('#modal3');
+    modal = document.querySelector('#modal3');
     //rendre la modale visible
-    target.style.display = 'flex';
-    target.removeAttribute('aria-hidden');
-    modal = target;
+    modal.style.display = 'flex';
+    modal.removeAttribute('aria-hidden');
     modal.addEventListener('click', closeModal)
     modal.querySelector('.btn-close').addEventListener('click', closeModal)
     modal.querySelector('.modal-stop').addEventListener('click', stopPropagation)
@@ -242,7 +264,44 @@ const stopPropagation = (e) =>{
     e.stopPropagation();
 }
 
-btnModal.addEventListener('click', openModal);
+// ************modale 2 partie chargment de l'image**********
+const retourModale = document.querySelector('.btn-retour').addEventListener('click', goBack)
+//fuction pour ouvrir le formulaire et fermer la modale
+function addPhoto() {
+  document.querySelector(".wrapper1").style.display = "none";
+  document.querySelector(".wrapper2").style.display = "block";
+  document.querySelector('.wrapper2').addEventListener('click', stopPropagation)
+}
+//fonction pour fermer le forumlaire et revenir à la modale 
+function goBack(){
+  document.querySelector(".wrapper1").style.display = "block";
+  document.querySelector(".wrapper2").style.display = "none";
+}
 
+// partie qui concerne le chargement de l'image
+const input = document.getElementById('tele-image');
+const preview = document.querySelector('.preview');
+const labelImage= document.querySelector('.label-image')
+const blockTeleImg = document.querySelector('.bloc-tele-img')
+
+const fileTypes = ['image/jpeg', 'image/png'];
+
+function validFileType(file) {
+    return fileTypes.includes(file.type);
+  }
+
+function telechargement() { 
+    const infoFiles = input.files;
+    for (const file of infoFiles) {
+        if (validFileType(file)) {
+          const image = document.createElement('img');
+          image.src = URL.createObjectURL(file);
+            blockTeleImg.appendChild(image)
+            labelImage.style.display= "none";
+        } 
+      }
+    }
+  
+input.addEventListener('change', telechargement);
 
 
