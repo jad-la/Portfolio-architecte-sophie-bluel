@@ -1,15 +1,10 @@
+
 //variable où on va stocker les données récuperées
 let projets = [];
 //variable page pour l'utiliser sur les deux pages (index.html et index-edit.html)en fonction de son contenu
 let page = "index";
 const entete = document.getElementById('banniere')
 console.log(entete);
-
-// creation des variables pour les filtres
-const filtreObjet = document.querySelector('.filtre-objet');
-const filtreAppart = document.querySelector('.filtre-appart');
-const filtreHotel = document.querySelector('.filtre-hotel');
-const filtreTous = document.querySelector('.filtre-tous');
 
 //variable du parent qui va contenir tout les projets
 const galerie = document.querySelector(".gallery");
@@ -99,44 +94,45 @@ async function genererProjets(projets) {
 recupTravaux().then(() => genererProjets(projets));
 
 //utilisation de filter() pour filtere les catégories des projets
-let categories;
 
+const sectionProjets = document.getElementById("portfolio")
 fetch('http://localhost:5678/api/categories')
-  .then(response => response.json())
-  .then(data => {
-    categories = data;
-    // faire autre chose avec les données
-  })
-  .catch(error => console.error(error));
+.then(response => response.json())
+.then(categories => {
+    console.log(categories);
+    // creation de l'élément qui va contenir tous les boutons filtres
+    const LesOptionsFiltres = document.createElement("div")
+    LesOptionsFiltres.classList.add('filtres')
+    sectionProjets.insertBefore(LesOptionsFiltres, sectionProjets.children[2]);
 
+    // creation du bouton qui va filtrer tous les projets
+    const tousLesProjets = document.createElement('button');
+    tousLesProjets.classList.add("filtre");
+    tousLesProjets.innerText = 'Tous';
+    LesOptionsFiltres.appendChild(tousLesProjets);
+    tousLesProjets.addEventListener("click", () => {
+        genererProjets(projets);
+    });
 
-
-filtreObjet.addEventListener("click", () => {
-  const categoriesFiltrees = categories.filter(category => category.name === 'Objets');
-//     const projetsFiltrees = projets.filter(projet => projet.category && projet.category.name === 'Objets');
-    genererProjets(categoriesFiltrees);
-    console.log(categoriesFiltrees);
+    for (let i = 0; i < categories.length; i++) {
+        const category = categories[i];
+        // creation des 3 bouton pour filtrer par catégorie 
+        const button = document.createElement("button");
+        button.classList.add("filtre");
+        button.innerText = category.name;
+        button.addEventListener("click", function() {
+            // filtrer les projets en fonction de la catégorie
+            const filteredProjects = projets.filter(projet => projet.category.name === category.name);
+            genererProjets(filteredProjects);
+        });
+        LesOptionsFiltres.appendChild(button);
+    }
 });
 
 
-filtreAppart.addEventListener("click", () => {
-  const categoriesFiltrees = categories.filter(category => category.name === 'Appartements');
-    // const projetsFiltrees = projets.filter(projet => projet.category && projet.category.name === 'Appartements');
-    genererProjets(categoriesFiltrees);
-});
-filtreHotel.addEventListener("click", () => {
-  const categoriesFiltrees = categories.filter(category => category.name === 'Hotels & restaurants');
-    // const projetsFiltrees = projets.filter(projet => projet.category && projet.category.name === 'Hotels & restaurants');
-    genererProjets(categoriesFiltrees);
-});
-
-filtreTous.addEventListener("click", () => {
-    genererProjets(projets);
-});
 
 
-
-// ************************Parti Espace utilisateur****************************
+// ************************Partie Espace utilisateur****************************
 
 const lienLogin = document.getElementById('login-logout')
 function toggleLoginLogout() {
@@ -144,7 +140,6 @@ function toggleLoginLogout() {
   if (token) {
     // Il y a un token stocké, donc on change le bouton en "logout" et on ajoute l'écouteur d'événement logoutUser
     lienLogin.innerHTML = "Logout";
-    lienLogin.removeEventListener('click', loginUser);
     lienLogin.addEventListener('click', logoutUser);
   } else {
     // Il n'y a pas de token stocké, donc on change le bouton en "login" et on ajoute l'écouteur d'événement loginUser
@@ -162,64 +157,65 @@ window.addEventListener("load", () => {
   // vérifier si l'utilisateur est connecté en vérifiant si un token est stocké dans le localStorage
   if(token) {
     //cacher la partie filtre
-    const blocFiltres = document.querySelector('.filtres')
-    blocFiltres.style.display = 'none'
+    const LesOptionsFiltres = document.querySelector('.filtres');
+    LesOptionsFiltres.style.display = 'none';
     const modifIntro = document.querySelector('.modif-intro')
     const modifImg = document.querySelector('.modif-img')
     const titreSectionProjets = document.querySelector('.titre-section-projets')
-  toggleLoginLogout();
-  //creation des éléments pour la partie header
-  const entete = document.getElementById('banniere')
-  const banniereEdit = document.createElement("div");
-  banniereEdit.classList.add("banniere-edit");
-  entete.insertBefore(banniereEdit, entete.firstChild);
-  const modeEdit = document.createElement('p');
-  modeEdit.classList.add("modif-edition");
-  modeEdit.innerText ='Mode édition';
-  banniereEdit.appendChild(modeEdit);
-  const iconeModeEdition = document.createElement('i');
-  iconeModeEdition.classList.add("fa-regular", "fa-pen-to-square");
-  modeEdit.insertBefore(iconeModeEdition, modeEdit.firstChild);
-  const btnEdition = document.createElement('button');
-  btnEdition.classList.add("btn-modif");
-  btnEdition.innerText= 'publier les changements';
-  banniereEdit.appendChild(btnEdition);
-  console.log(entete);
+    toggleLoginLogout();
 
-  //creation des éléments pour la partie introdution 
-  const modifFig = document.createElement('p');
-  modifFig.classList.add('modif-fig');
-  modifFig.innerText = 'modifier';
-  modifImg.appendChild(modifFig);
-  const iconeModiFig = document.createElement('i');
-  iconeModiFig.classList.add('fa-regular', 'fa-pen-to-square');
-  modifFig.insertBefore(iconeModiFig, modifFig.firstChild);
+    //creation des éléments pour la partie header
+    const entete = document.getElementById('banniere')
+    const banniereEdit = document.createElement("div");
+    banniereEdit.classList.add("banniere-edit");
+    entete.insertBefore(banniereEdit, entete.firstChild);
+    const modeEdit = document.createElement('p');
+    modeEdit.classList.add("modif-edition");
+    modeEdit.innerText ='Mode édition';
+    banniereEdit.appendChild(modeEdit);
+    const iconeModeEdition = document.createElement('i');
+    iconeModeEdition.classList.add("fa-regular", "fa-pen-to-square");
+    modeEdit.insertBefore(iconeModeEdition, modeEdit.firstChild);
+    const btnEdition = document.createElement('button');
+    btnEdition.classList.add("btn-modif");
+    btnEdition.innerText= 'publier les changements';
+    banniereEdit.appendChild(btnEdition);
+    console.log(entete);
 
-  const modifArticle = document.createElement('p');
-  modifIntro.insertBefore(modifArticle, modifIntro.firstChild);
-  modifArticle.classList.add('modif-article');
-  modifArticle.innerText= 'modifier';
-  const iconeModifArticle = document.createElement('i');
-  iconeModifArticle.classList.add('fa-regular', 'fa-pen-to-square');
-  modifArticle.insertBefore(iconeModifArticle, modifArticle.firstChild);
+    //creation des éléments pour la partie introdution 
+    const modifFig = document.createElement('p');
+    modifFig.classList.add('modif-fig');
+    modifFig.innerText = 'modifier';
+    modifImg.appendChild(modifFig);
+    const iconeModiFig = document.createElement('i');
+    iconeModiFig.classList.add('fa-regular', 'fa-pen-to-square');
+    modifFig.insertBefore(iconeModiFig, modifFig.firstChild);
 
-  // creation des éléments de la section projets
-  const accesModale = document.createElement('a');
-  accesModale.setAttribute('href','#modal3')
-  accesModale.classList.add('acces-modale')
-  titreSectionProjets.appendChild(accesModale);
-  const spanAccesModale = document.createElement('span')
-  spanAccesModale.classList.add('modif-projet', 'open-modal')
-  accesModale.appendChild(spanAccesModale);
-  spanAccesModale.innerText = 'modifier';
-  const iconeAccesModale = document.createElement('i');
-  iconeAccesModale.classList.add('fa-regular', 'fa-pen-to-square');
-  spanAccesModale.insertBefore(iconeAccesModale, spanAccesModale.firstChild);
+    const modifArticle = document.createElement('p');
+    modifIntro.insertBefore(modifArticle, modifIntro.firstChild);
+    modifArticle.classList.add('modif-article');
+    modifArticle.innerText= 'modifier';
+    const iconeModifArticle = document.createElement('i');
+    iconeModifArticle.classList.add('fa-regular', 'fa-pen-to-square');
+    modifArticle.insertBefore(iconeModifArticle, modifArticle.firstChild);
 
-  const btnModal = document.querySelector('.open-modal');
-  btnModal.addEventListener('click', openModal);
-  const btnAjout = document.querySelector('.btn-ajout')
-  btnAjout.addEventListener('click', addPhoto)
+    // creation des éléments de la section projets
+    const accesModale = document.createElement('a');
+    accesModale.setAttribute('href','#modal3')
+    accesModale.classList.add('acces-modale')
+    titreSectionProjets.appendChild(accesModale);
+    const spanAccesModale = document.createElement('span')
+    spanAccesModale.classList.add('modif-projet', 'open-modal')
+    accesModale.appendChild(spanAccesModale);
+    spanAccesModale.innerText = 'modifier';
+    const iconeAccesModale = document.createElement('i');
+    iconeAccesModale.classList.add('fa-regular', 'fa-pen-to-square');
+    spanAccesModale.insertBefore(iconeAccesModale, spanAccesModale.firstChild);
+
+    const btnModal = document.querySelector('.open-modal');
+    btnModal.addEventListener('click', openModal);
+    const btnAjout = document.querySelector('.btn-ajout')
+    btnAjout.addEventListener('click', addPhoto)
   }
 });
 
@@ -278,7 +274,7 @@ function goBack(){
   document.querySelector(".wrapper2").style.display = "none";
 }
 
-// partie qui concerne le chargement de l'image
+  // partie qui concerne le chargement de l'image
 const input = document.getElementById('tele-image');
 const preview = document.querySelector('.preview');
 const labelImage= document.querySelector('.label-image')
@@ -304,4 +300,31 @@ function telechargement() {
   
 input.addEventListener('change', telechargement);
 
+const form = document.getElementById('ajout');
+const imageInput = form.querySelector('input[name="tele-image"]');
+const titleInput = form.querySelector('input[name="titre-projet"]');
+const categorySelect = form.querySelector('select[name="categorie"]');
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
 
+  const ajoutImage = imageInput.files[0];
+  const ajoutTitle = titleInput.value;
+  const ajoutCategory = categorySelect.options[categorySelect.selectedIndex].text;
+  console.log(ajoutImage);
+  console.log(ajoutTitle);
+  console.log(ajoutCategory);
+
+  const formData = new FormData();
+  formData.append('image', ajoutImage);
+  formData.append('title', ajoutTitle);
+  formData.append('category', ajoutCategory);
+
+  fetch('http://localhost:5678/api/works', {
+    method: 'POST',
+    headers: {
+            'accept': 'application/json',
+            'Content-Type': 'multipart/form-data',
+          },
+    body: formData
+  });
+});
