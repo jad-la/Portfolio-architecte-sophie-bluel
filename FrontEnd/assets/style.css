@@ -138,14 +138,15 @@ li:hover {
 }
 #portfolio h2 {
 	text-align: center;
-	margin-bottom: 1em;
+	margin-bottom: 2em;
 }
 
 .filtres{
 	display: flex;
 	justify-content: space-between;
-	width: 60%;
-	margin: 20px auto;
+	width: 50%;
+	margin: auto;
+	margin-bottom: 2em;
 }
 .filtre{
 	padding: 5px 15px;
@@ -158,10 +159,10 @@ li:hover {
 	border:1px solid #1D6154;
 	border-radius: 25px;
 }
-.filtre:active{
+.filtre.active {
 	background-color: #1D6154;
 	color: white;
-}
+  }
 .gallery {
 	width: 100%;
 	display: grid;
@@ -224,13 +225,18 @@ footer nav ul {
 }
 
 /* **************************page de connextion******************************** */
+.main-login{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
 .titre-login{
-	text-align: center;
+	margin-top: 100px;
 	margin-bottom: 35px;
 }
-form{
+#form-connexion{
 	width: 40%;
-	margin: auto;
 	display: flex;
 	flex-direction: column;
 }
@@ -264,7 +270,6 @@ form #bouton-login{
 }
 .code-oublie{
 	margin: 28px auto;
-	text-align: center;
 	font-family: 'Work Sans';
 	font-weight: 500;
 	font-size: 14px;
@@ -292,15 +297,7 @@ form #bouton-login{
 	align-items: center;
 	background-color: black;
 }
-/* .banniere-edit div{
-	width: 35%;
-	height: 100%;
-	margin: auto;
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
 
-} */
 .modif-edition{
 	width: 25%;
 	font-size: 16px;
@@ -331,7 +328,7 @@ nav ul li a {
 	/* *********section introdution******** */
 .modif-fig{
 	margin-top: 13px;
-	margin-left: 47px;
+	margin-left: 55px;
 }
 .modif-fig i{
 	margin-right:8px;
@@ -339,13 +336,14 @@ nav ul li a {
 }
 .modif-article {
 	position: absolute;
-	top: 10px;
+	top: 20px;
 }
 .modif-article i{
 	margin-right: 8px;
 }
 .acces-modale{
 	text-decoration: none;
+	margin-bottom: 30px;
 }
 .modif-projet{
 	font-family: 'Work Sans';
@@ -375,7 +373,7 @@ nav ul li a {
 	
 }
 .modal-wrapper{
-	width: 40%;
+	width: 42%;
 	height: 70%;
 	margin: auto;
 	padding: 20px 50px;
@@ -384,13 +382,19 @@ nav ul li a {
 
 }
 .btn-close{
+	margin-right: -40px;
 	border: none;
 	background: transparent;
 	float: right;
 	cursor: pointer;
 }
-.modal-wrapper h2{
-	margin-top: 30px;
+#titre-modale{
+	font-family: 'Work Sans';
+	font-weight: 400;
+	font-size: 26px;
+	color: #000;
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 .projet-modif{
 	margin: auto;
@@ -420,6 +424,10 @@ nav ul li a {
 	color: white;
 	font-size: 10px;
 }
+.ligne-separation{
+	padding-bottom: 35px;
+	border-bottom: 1px solid #B3B3B3;
+}
 
 .ajout-supp{
 	display: flex;
@@ -428,7 +436,7 @@ nav ul li a {
 }
 .ajout-supp button{
 	height: 35px;
-	width: 200px;
+	width: 60%;
 	margin-top: 25px;
 	border: none;
 }
@@ -448,17 +456,22 @@ nav ul li a {
 	display: none;
 }
 .btn-retour{
+	margin-left: -40px;
 	border: none;
 	background-color: transparent;
 }
 .ajout-projet{
+	display: flex;
+	flex-direction: column;
 	margin: auto;
 	width: 100%;
+	height: 80%;
 }
 
 .bloc-tele-img{
 	width: 100%;
 	height: 169px;
+	margin-bottom: 15px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -505,24 +518,50 @@ input[type="file"] {
 	width: 50%;
 	height: 100%;
 }
+
 .titre-categorie{
-	font-size: 14px;
-	margin: 10px 0;
+	margin-top: 5px;
+	
 
 }
+
 .img-info{
+	width: 100%;
 	height: 30px;
+	margin-top: 5px;
+	margin-bottom: 15px;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
+
 .btn-ajout-projet{
-	width: 55%;
-	height: 33px;
-	margin: auto;
+	width: 50%;
+	height: 36px;
+	margin: 15px auto;
 	background-color: #A7A7A7;
-	font-family: 'Work Sans';
+	font-family: 'Syne';
+	font-style: normal;
+	font-weight: 700;
 	font-size: 14px;
 	color: white;
 	border: none;
 	border-radius: 25px;
 }
+
+.message-erreur{
+	font-family: 'Work Sans';
+	font-size: 16px;
+	display: inline-block;
+	margin-top: 10px;
+	margin-left: 10px;
+	color: red;
+
+}
+.notification {
+	background-color: green;
+	color: white;
+	padding: 10px;
+	position: absolute;
+	top: 50%;
+	right: 50%;
+  }
