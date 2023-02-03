@@ -10,7 +10,7 @@ console.log(entete);
 const galerie = document.querySelector(".gallery");
 let container = galerie;
 
-//création de la variable qui va contenir le token pour pouvoir l'utiliser dans edit.js
+//création de la variable qui va contenir le token pour pouvoir l'utiliser dans espace utilisateur
 const token = localStorage.getItem('token')
 
 
@@ -56,7 +56,7 @@ async function genererProjets(projets) {
             // creation de l'élement i
             const block = document.createElement("div");
 
-            //dans la page modale figure change de parent 
+            //dans la page modale 'figure' change de parent 
             figure.appendChild(block);
             const i = document.createElement("i");
             // ajout de class pour pouvoir changer la forme en css
@@ -112,6 +112,14 @@ fetch('http://localhost:5678/api/categories')
     LesOptionsFiltres.appendChild(tousLesProjets);
     tousLesProjets.addEventListener("click", () => {
         genererProjets(projets);
+
+        // Ajouter la classe 'active' au bouton cliqué
+        const buttons = LesOptionsFiltres.querySelectorAll(".filtre");
+        buttons.forEach(btn => {
+          btn.classList.remove("active");
+        });
+        tousLesProjets.classList.add("active");
+
     });
 
     for (let i = 0; i < categories.length; i++) {
@@ -124,6 +132,13 @@ fetch('http://localhost:5678/api/categories')
             // filtrer les projets en fonction de la catégorie
             const filteredProjects = projets.filter(projet => projet.category.name === category.name);
             genererProjets(filteredProjects);
+
+            // Ajouter la classe 'active' au bouton cliqué
+            const buttons = LesOptionsFiltres.querySelectorAll(".filtre");
+            buttons.forEach(btn => {
+              btn.classList.remove("active");
+            });
+            button.classList.add("active");
         });
         LesOptionsFiltres.appendChild(button);
     }
@@ -165,7 +180,7 @@ window.addEventListener("load", () => {
     toggleLoginLogout();
 
     //creation des éléments pour la partie header
-    const entete = document.getElementById('banniere')
+    entete.style.marginTop = 0;
     const banniereEdit = document.createElement("div");
     banniereEdit.classList.add("banniere-edit");
     entete.insertBefore(banniereEdit, entete.firstChild);
@@ -300,31 +315,79 @@ function telechargement() {
   
 input.addEventListener('change', telechargement);
 
+//  partie qui concerne l'envoi d'un nouveau projet 
 const form = document.getElementById('ajout');
 const imageInput = form.querySelector('input[name="tele-image"]');
 const titleInput = form.querySelector('input[name="titre-projet"]');
 const categorySelect = form.querySelector('select[name="categorie"]');
+
+
 form.addEventListener('submit', (event) => {
-  event.preventDefault();
+      event.preventDefault();
+      let valid = true;
+      const ajoutImage = imageInput.files[0];
+      const ajoutTitle = titleInput.value;
+      const ajoutCategory = categorySelect.options[categorySelect.selectedIndex].id;
 
-  const ajoutImage = imageInput.files[0];
-  const ajoutTitle = titleInput.value;
-  const ajoutCategory = categorySelect.options[categorySelect.selectedIndex].text;
-  console.log(ajoutImage);
-  console.log(ajoutTitle);
-  console.log(ajoutCategory);
+      // Vérifie si l'image a été sélectionnée
+      if (!ajoutImage) {
+          const messageErreur = document.createElement('span');
+          messageErreur.classList.add('message-erreur')
+          messageErreur.innerText = 'Veuillez sélectionner une image';
+          imageInput.parentNode.appendChild(messageErreur);
+          valid = false;
+      }
 
-  const formData = new FormData();
-  formData.append('image', ajoutImage);
-  formData.append('title', ajoutTitle);
-  formData.append('category', ajoutCategory);
+      // Vérifie si le titre a été entré
+      if (!ajoutTitle) {
+          const messageErreur = document.createElement('span');
+          messageErreur.classList.add('message-erreur')
+          messageErreur.innerText = 'Veuillez entrer un titre';
+          titleInput.parentNode.appendChild(messageErreur);
+          valid = false;
+      }
+  
+      // Vérifie si la catégorie a été sélectionnée
+      if (!ajoutCategory) {
+          const messageErreur = document.createElement('span');
+          messageErreur.classList.add('message-erreur')
+          messageErreur.innerText = 'Veuillez sélectionner une catégorie';
+          categorySelect.parentNode.appendChild(messageErreur);
+          valid = false;
+      }
+  
+      // Si tout est valide, faire la requête
+      if (valid) {
+          const formData = new FormData();
+          formData.append('image', ajoutImage);
+          formData.append('title', ajoutTitle);
+          formData.append('category', ajoutCategory);
 
-  fetch('http://localhost:5678/api/works', {
-    method: 'POST',
-    headers: {
-            'accept': 'application/json',
-            'Content-Type': 'multipart/form-data',
-          },
-    body: formData
-  });
+          fetch('http://localhost:5678/api/works', {
+            method: 'POST',
+            headers: {
+                    'accept': 'application/json',
+                    // 'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${token}`
+                  },
+            body: formData
+    
+          })
+          .then(response => {
+            if (response.ok) {
+                const main = document.querySelector("main");
+                const notification = document.createElement("div");
+                notification.classList.add("notification");
+                notification.innerText = "Le projet a bien été envoyé";
+                main.appendChild(notification);
+                setTimeout(() => {
+                  notification.remove();
+                }, 12000);
+                console.log('projet envoyer');
+                return response.json();
+            }
+            throw new Error('échec');
+          })
+      }
 });
+
