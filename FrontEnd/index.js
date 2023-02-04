@@ -180,7 +180,6 @@ window.addEventListener("load", () => {
     toggleLoginLogout();
 
     //creation des éléments pour la partie header
-    entete.style.marginTop = 0;
     const banniereEdit = document.createElement("div");
     banniereEdit.classList.add("banniere-edit");
     entete.insertBefore(banniereEdit, entete.firstChild);
@@ -329,6 +328,30 @@ form.addEventListener('submit', (event) => {
       const ajoutTitle = titleInput.value;
       const ajoutCategory = categorySelect.options[categorySelect.selectedIndex].id;
 
+      // Supprime le message d'erreur pour l'image
+imageInput.addEventListener('input', () => {
+  const messageErreur = imageInput.parentNode.querySelector('.message-erreur');
+  if (messageErreur) {
+      messageErreur.remove();
+  }
+});
+
+// Supprime le message d'erreur pour le titre
+titleInput.addEventListener('input', () => {
+  const messageErreur = titleInput.parentNode.querySelector('.message-erreur');
+  if (messageErreur) {
+      messageErreur.remove();
+  }
+});
+
+// Supprime le message d'erreur pour la catégorie
+categorySelect.addEventListener('input', () => {
+  const messageErreur = categorySelect.parentNode.querySelector('.message-erreur');
+  if (messageErreur) {
+      messageErreur.remove();
+  }
+});
+
       // Vérifie si l'image a été sélectionnée
       if (!ajoutImage) {
           const messageErreur = document.createElement('span');
@@ -375,11 +398,10 @@ form.addEventListener('submit', (event) => {
           })
           .then(response => {
             if (response.ok) {
-                const main = document.querySelector("main");
                 const notification = document.createElement("div");
                 notification.classList.add("notification");
                 notification.innerText = "Le projet a bien été envoyé";
-                main.appendChild(notification);
+                entete.appendChild(notification);
                 setTimeout(() => {
                   notification.remove();
                 }, 12000);
