@@ -327,55 +327,42 @@ form.addEventListener('submit', (event) => {
       const ajoutImage = imageInput.files[0];
       const ajoutTitle = titleInput.value;
       const ajoutCategory = categorySelect.options[categorySelect.selectedIndex].id;
-
-      // Supprime le message d'erreur pour l'image
-imageInput.addEventListener('input', () => {
-  const messageErreur = imageInput.parentNode.querySelector('.message-erreur');
-  if (messageErreur) {
-      messageErreur.remove();
-  }
-});
-
-// Supprime le message d'erreur pour le titre
-titleInput.addEventListener('input', () => {
-  const messageErreur = titleInput.parentNode.querySelector('.message-erreur');
-  if (messageErreur) {
-      messageErreur.remove();
-  }
-});
-
-// Supprime le message d'erreur pour la catégorie
-categorySelect.addEventListener('input', () => {
-  const messageErreur = categorySelect.parentNode.querySelector('.message-erreur');
-  if (messageErreur) {
-      messageErreur.remove();
-  }
-});
+  
+  
+      //fonction pour ajouter un message d'erreur si l'utilisateur ne rempli pas le champ
+      function creationMessageErreur(message) {
+        const messageErreur = document.createElement('span');
+        messageErreur.classList.add('message-erreur');
+        messageErreur.innerText = message;
+        return messageErreur;
+      }
+      // fonction pour supprime le message d'erreur si l'utilisateur écrire dans le champ
+      function suppMessageErreur(input) {
+        const messageErreur = input.parentNode.querySelector('.message-erreur');
+        if (messageErreur) {
+          messageErreur.remove();
+        }
+      }
+      const inputs = [imageInput, titleInput, categorySelect];
+      inputs.forEach(input => {
+        input.addEventListener('input', () => suppMessageErreur(input));
+      });
 
       // Vérifie si l'image a été sélectionnée
       if (!ajoutImage) {
-          const messageErreur = document.createElement('span');
-          messageErreur.classList.add('message-erreur')
-          messageErreur.innerText = 'Veuillez sélectionner une image';
-          imageInput.parentNode.appendChild(messageErreur);
+        imageInput.parentNode.appendChild(creationMessageErreur('Veuillez sélectionner une image'));
           valid = false;
       }
 
       // Vérifie si le titre a été entré
       if (!ajoutTitle) {
-          const messageErreur = document.createElement('span');
-          messageErreur.classList.add('message-erreur')
-          messageErreur.innerText = 'Veuillez entrer un titre';
-          titleInput.parentNode.appendChild(messageErreur);
+        titleInput.parentNode.appendChild(creationMessageErreur('Veuillez entrer un titre'));
           valid = false;
       }
   
       // Vérifie si la catégorie a été sélectionnée
       if (!ajoutCategory) {
-          const messageErreur = document.createElement('span');
-          messageErreur.classList.add('message-erreur')
-          messageErreur.innerText = 'Veuillez sélectionner une catégorie';
-          categorySelect.parentNode.appendChild(messageErreur);
+        categorySelect.parentNode.appendChild(creationMessageErreur('Veuillez sélectionner une catégorie'));
           valid = false;
       }
   
