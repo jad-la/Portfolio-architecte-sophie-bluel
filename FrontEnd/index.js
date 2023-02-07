@@ -108,7 +108,6 @@ fetch('http://localhost:5678/api/categories')
     // creation du bouton qui va filtrer tous les projets
     const tousLesProjets = document.createElement('button');
     tousLesProjets.classList.add("filtre");
-    tousLesProjets.innerText = 'Tous';
     LesOptionsFiltres.appendChild(tousLesProjets);
     tousLesProjets.addEventListener("click", () => {
         genererProjets(projets);
