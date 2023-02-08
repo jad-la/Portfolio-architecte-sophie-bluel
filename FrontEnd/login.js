@@ -2,7 +2,12 @@
 // ****************connexion****************
 //variable pour cibler le formulaire depuis le DOM
 const formConnexion = document.getElementById('form-connexion');
-const boutonLogin = document.getElementById('bouton-login');  
+const boutonLogin = document.getElementById('bouton-login'); 
+
+//creation d'élement pour le message d'erreur
+const messageErreur = document.createElement('div');
+messageErreur.classList.add('message-erreur'); 
+
 //  Supprime le message d'erreur précédent s'il existe
 function suppMessageErreur(){
   const precedentMessageErreur = document.querySelector('.message-erreur');
@@ -11,6 +16,44 @@ function suppMessageErreur(){
   }
 }  
 
+
+function verifForm(event){
+      event.preventDefault();
+
+      //variable qui recupere ce qu'est écrit dans l'input 
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+        // Vérifie que les champs ne sont pas vides
+      if (!email) {
+        suppMessageErreur();
+        messageErreur.innerHTML = 'Le champ email ne peut pas être vide';
+        formConnexion.insertBefore(messageErreur, formConnexion.children[1]);
+        return;
+      }
+      
+    if (!password) {
+        suppMessageErreur();
+        messageErreur.innerHTML = 'Le champ mot de passe ne peut pas être vide';
+        formConnexion.insertBefore(messageErreur, formConnexion.children[2]);
+        return;
+      }
+
+      // Vérifie que le champ email est au format e-mail
+      const emailReg = new RegExp('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$');
+      const testEmail = emailReg.test(email);
+      console.log(testEmail);
+      if (!testEmail) {
+        suppMessageErreur();
+        console.log('L\'email est incorrect');
+        messageErreur.innerHTML = "Le format de l'e-mail n'est pas valide";
+        formConnexion.insertBefore(messageErreur, formConnexion.children[1]);
+        return;
+      }
+
+      //connexion de l'utilisateur
+      loginUser(event);
+}
 
 async function loginUser(event) {
       event.preventDefault();
@@ -28,35 +71,11 @@ async function loginUser(event) {
               },
               body: JSON.stringify({email: email, password: password})
             });
-             // Vérifie que les champs ne sont pas vides
-            if (!email || !password ) {
-              suppMessageErreur();
-              const messageErreur = document.createElement('div');
-              messageErreur.classList.add('message-erreur');
-              messageErreur.innerHTML = 'Les champs email et/ou mot de passe ne peuvent pas être vides';
-              formConnexion.insertBefore(messageErreur, formConnexion.children[2]);
-              return;
-            }
-            // Vérifie que le champ email est de la forme d'un e-mail
-            const emailReg = new RegExp('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$', 'g');
-            const testEmail = emailReg.test(email);
-            console.log(testEmail);
-            if (!testEmail) {
-              suppMessageErreur();
-              console.log('L\'email est incorrect');
-              const messageErreur = document.createElement('div');
-              messageErreur.classList.add('message-erreur')
-              messageErreur.innerHTML = 'L\'email est incorrect';
-              formConnexion.insertBefore(messageErreur, formConnexion.children[1]);
-              return
-            }
               if(respLogin.status !== 200) {
                 console.log('Connexion échouée');
                 suppMessageErreur();
                 // Ajoute le nouveau message d'erreur
-                const messageErreur = document.createElement('div');
-                messageErreur.classList.add('message-erreur')
-                messageErreur.innerHTML = 'Votre e-mail et/ou mot de passe sont incorrects';
+                messageErreur.innerHTML = 'Erreur dans l’e-mail ou le mot de passe';
                 formConnexion.insertBefore(messageErreur, formConnexion.children[2]);
             }else{
             const data = await respLogin.json();
@@ -66,6 +85,7 @@ async function loginUser(event) {
             //variable pour stocker le token après la connexion du client
             const token = data.token;
             localStorage.setItem('token', token);
+
             //dériger le client vers son espace 
             window.location.assign("index.html");
           
@@ -76,6 +96,4 @@ async function loginUser(event) {
 
 }
 
-
-
-formConnexion.addEventListener('submit', (event)=> loginUser(event));
+formConnexion.addEventListener('submit', (event)=> verifForm(event));
