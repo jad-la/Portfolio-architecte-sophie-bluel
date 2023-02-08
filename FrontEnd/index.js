@@ -101,15 +101,19 @@ fetch('http://localhost:5678/api/categories')
 .then(categories => {
     console.log(categories);
     // creation de l'élément qui va contenir tous les boutons filtres
-    const LesOptionsFiltres = document.createElement("div")
-    LesOptionsFiltres.classList.add('filtres')
-    sectionProjets.insertBefore(LesOptionsFiltres, sectionProjets.children[2]);
+    const lesOptionsFiltres = document.createElement("div")
+    lesOptionsFiltres.classList.add('filtres')
+    sectionProjets.insertBefore(lesOptionsFiltres, sectionProjets.children[2]);
 
+    //cacher la partie filtre
+    if(token){
+      lesOptionsFiltres.style.display = 'none';
+    }
     // creation du bouton qui va filtrer tous les projets
     const tousLesProjets = document.createElement('button');
     tousLesProjets.classList.add("filtre");
     tousLesProjets.innerText = 'Tous';
-    LesOptionsFiltres.appendChild(tousLesProjets);
+    lesOptionsFiltres.appendChild(tousLesProjets);
     tousLesProjets.addEventListener("click", () => {
         genererProjets(projets);
 
@@ -171,9 +175,6 @@ window.addEventListener("load", () => {
   const token = localStorage.getItem('token');
   // vérifier si l'utilisateur est connecté en vérifiant si un token est stocké dans le localStorage
   if(token) {
-    //cacher la partie filtre
-    const LesOptionsFiltres = document.querySelector('.filtres');
-    LesOptionsFiltres.style.display = 'none';
     const modifIntro = document.querySelector('.modif-intro')
     const modifImg = document.querySelector('.modif-img')
     const titreSectionProjets = document.querySelector('.titre-section-projets')
@@ -249,7 +250,8 @@ const closeModal = (e) =>{
     modal.removeEventListener('click', closeModal);
     modal.querySelector('.btn-close').removeEventListener('click', closeModal)
     modal.querySelector('.modal-stop').removeEventListener('click', stopPropagation)
-    const modale2 = document.querySelector('.close2').addEventListener('click', closeModal)
+    const modaleAjout = document.querySelector('.close-2');
+    modaleAjout.addEventListener('click', closeModal);
     //on revient sur la valeur initial de la modale
     modal = null;
     
