@@ -118,7 +118,7 @@ fetch('http://localhost:5678/api/categories')
         genererProjets(projets);
 
         // Ajouter la classe 'active' au bouton cliqué
-        const buttons = LesOptionsFiltres.querySelectorAll(".filtre");
+        const buttons = lesOptionsFiltres.querySelectorAll(".filtre");
         buttons.forEach(btn => {
           btn.classList.remove("active");
         });
@@ -138,13 +138,13 @@ fetch('http://localhost:5678/api/categories')
             genererProjets(filteredProjects);
 
             // Ajouter la classe 'active' au bouton cliqué
-            const buttons = LesOptionsFiltres.querySelectorAll(".filtre");
+            const buttons = lesOptionsFiltres.querySelectorAll(".filtre");
             buttons.forEach(btn => {
               btn.classList.remove("active");
             });
             button.classList.add("active");
         });
-        LesOptionsFiltres.appendChild(button);
+        lesOptionsFiltres.appendChild(button);
     }
 });
 
@@ -370,6 +370,7 @@ form.addEventListener('submit', (event) => {
   
       // Si tout est valide, faire la requête
       if (valid) {
+        
           const formData = new FormData();
           formData.append('image', ajoutImage);
           formData.append('title', ajoutTitle);
