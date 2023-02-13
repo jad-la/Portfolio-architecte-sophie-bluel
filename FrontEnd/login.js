@@ -19,24 +19,25 @@ function suppMessageErreur(){
 
 function verifForm(event){
       event.preventDefault();
-
+      suppMessageErreur()
+      let isError = false;
       //variable qui recupere ce qu'est écrit dans l'input 
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
 
         // Vérifie que les champs ne sont pas vides
       if (!email) {
-        suppMessageErreur();
+      
         messageErreur.innerHTML = 'Le champ email ne peut pas être vide';
         formConnexion.insertBefore(messageErreur, formConnexion.children[1]);
-        return;
+       isError= true
       }
       
     if (!password) {
-        suppMessageErreur();
+      
         messageErreur.innerHTML = 'Le champ mot de passe ne peut pas être vide';
         formConnexion.insertBefore(messageErreur, formConnexion.children[2]);
-        return;
+        isError= true
       }
 
       // Vérifie que le champ email est au format e-mail
@@ -44,13 +45,13 @@ function verifForm(event){
       const testEmail = emailReg.test(email);
       console.log(testEmail);
       if (!testEmail) {
-        suppMessageErreur();
+      
         console.log('L\'email est incorrect');
         messageErreur.innerHTML = "Le format de l'e-mail n'est pas valide";
         formConnexion.insertBefore(messageErreur, formConnexion.children[1]);
-        return;
+        isError= true
       }
-
+        if (isError)return
       //connexion de l'utilisateur
       loginUser(event);
 }
@@ -73,7 +74,6 @@ async function loginUser(event) {
             });
               if(respLogin.status !== 200) {
                 console.log('Connexion échouée');
-                suppMessageErreur();
                 // Ajoute le nouveau message d'erreur
                 messageErreur.innerHTML = 'Erreur dans l’e-mail ou le mot de passe';
                 formConnexion.insertBefore(messageErreur, formConnexion.children[2]);
