@@ -477,6 +477,7 @@ nav ul li a {
 	align-items: center;
 	justify-content: center;
 	background-color: #E8F1F6;
+	border: none;
 }
 input[type="file"] + label {
   border: 1px solid rgba(0,0,0,.2);
@@ -513,10 +514,12 @@ input[type="file"] {
 	height: 0;
 	width: 0;
 	overflow: hidden;
-  }
-.bloc-tele-img img{
+}
+.bloc-tele-img #image-preview{
 	width: 50%;
 	height: 100%;
+	border: none;
+	display: none;
 }
 
 .titre-categorie{

@@ -280,39 +280,39 @@ function goBack(){
 }
 
   // partie qui concerne le chargement de l'image
-const input = document.getElementById('tele-image');
-const preview = document.querySelector('.preview');
-const labelImage= document.querySelector('.label-image')
-const blockTeleImg = document.querySelector('.bloc-tele-img')
-const fileTypes = ['image/jpeg', 'image/png'];
-
-function validFileType(file) {
-    return fileTypes.includes(file.type);
-  }
-
-function telechargement() { 
-    const infoFiles = input.files;
-    for (const file of infoFiles) {
-        if (validFileType(file)) {
-          const image = document.createElement('img');
-          image.src = URL.createObjectURL(file);
-            blockTeleImg.appendChild(image)
-            labelImage.style.display= "none";
-        } 
-      }
-    }
-  
-input.addEventListener('change', telechargement);
-
-//  partie qui concerne l'envoi d'un nouveau projet 
 const form = document.getElementById('ajout');
-let imageInput = form.querySelector('input[name="tele-image"]');
+const blockTeleImg = document.querySelector('.bloc-tele-img')
+const labelImage= document.querySelector('.label-image')
+const imgPreview = document.getElementById('image-preview');
+const fileTypes = ['image/jpeg', 'image/png'];
+const imageInput = form.querySelector('input[name="tele-image"]');
 const titleInput = form.querySelector('input[name="titre-projet"]');
 const categorySelect = form.querySelector('select[name="categorie"]');
 const submitButton = document.querySelector('.btn-ajout-projet');
+const inputs = [imageInput, titleInput, categorySelect];
 
 
-//fonction pour ajouter un message d'erreur si l'utilisateur ne rempli pas le champ
+imageInput.addEventListener('change', function() {
+     
+      const file = this.files[0];
+    
+      if (file) {
+        const reader = new FileReader();
+    
+        reader.addEventListener('load', function() {
+          imgPreview.setAttribute('src', this.result);
+        });
+    
+        reader.readAsDataURL(file);
+      }
+      labelImage.style.display= "none";
+      imgPreview.style.display = 'block';
+    });
+
+
+//  partie qui concerne l'envoi d'un nouveau projet 
+
+  //fonction pour ajouter un message d'erreur si l'utilisateur ne rempli pas le champ
 function creationMessageErreur(message) {
       const messageErreur = document.createElement('span');
       messageErreur.classList.add('message-erreur');
@@ -332,8 +332,6 @@ function suppMessageErreur(input) {
 function validateForm(event) {
       event.preventDefault();
       let isError = false;
-      submitButton.setAttribute('disabled', true);
-      console.log(submitButton);
       
       const ajoutImage = imageInput.files[0];
       const ajoutTitle = titleInput.value;
@@ -349,7 +347,7 @@ function validateForm(event) {
       errorMessages.forEach(errorMessage => errorMessage.remove());
 
       //supprime le message déjà existant
-      const inputs = [imageInput, titleInput, categorySelect];
+      
       inputs.forEach(input => {
           input.addEventListener('input', () => suppMessageErreur(input));
       });
@@ -373,40 +371,16 @@ function validateForm(event) {
       }
 
       // Si il y a une erreur, arrête la fonction
-      if (isError) {
-        return;
-      }else{
-
-        console.log(ajoutTitle, ajoutImage, ajoutCategory);
-        // Change la couleur du bouton et définit son état 
-        submitButton.style.backgroundColor = '#1D6154';
-        submitButton.removeAttribute('disabled');
-        console.log(submitButton);
-        
+      if (isError) return;
+        console.log(imageInput.value, titleInput.value, categorySelect.value );
         submitForm(formData); 
-  
-        // Réinitialise le formulaire
-        inputs.forEach(input => {
-            if (input.type === "file") {
-                  // Création d'une nouvelle instance de l'input type file
-                  const newInput = document.createElement("input");
-                  newInput.type = "file";
-                  newInput.id = imageInput.id;
-                  newInput.name = imageInput.name;
-                  imageInput.parentNode.replaceChild(newInput, imageInput);
-                  imageInput = newInput;
-            } else {
-                  input.value = '';
-                }
-          });
-        document.querySelector(".wrapper2").style.display = "none";
-        document.querySelector(".wrapper1").style.display = "block";
-      }
-      
+      console.log(imageInput.value, titleInput.value, categorySelect.value );
+      document.querySelector(".wrapper2").style.display = "none";
+      document.querySelector(".wrapper1").style.display = "block";
 
- }
- 
+}
 
+//fonction pour faire la requete (ajout nouveau projet ) vers l'api 
 function submitForm(formData) {
       fetch('http://localhost:5678/api/works', {
         method: 'POST',
@@ -440,7 +414,32 @@ function submitForm(formData) {
           console.log("Impossible d'ajouter projet");
           throw new Error('échec');
       });
-    }
+}
 
-form.addEventListener('submit', (event)=> validateForm(event));
+// fonction pour désactiver et activer le bouton valider une fois les champs rempli avec changement de couleur
+const checkInputs = function() {
+  if (imageInput.value !== "" && titleInput.value !== "" && categorySelect.value !== "") {
+    submitButton.removeAttribute("disabled");
+    submitButton.style.backgroundColor = '#1D6154';
+  } else {
+    submitButton.setAttribute("disabled", "disabled");
+    
+  }
+};
+
+form.addEventListener("input", function() {
+  checkInputs();
+});
+
+
+form.addEventListener('submit',  (event)=>{
+      event.preventDefault()
+      validateForm(event)
+      form.reset()  
+      imgPreview.src = '';
+      labelImage.style.display= "block";
+      submitButton.setAttribute('disabled', true)
+      submitButton.style.backgroundColor = '#A7A7A7';
+      imgPreview.style.display= 'none';
+})
 
