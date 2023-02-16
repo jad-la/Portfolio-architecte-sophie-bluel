@@ -373,7 +373,7 @@ nav ul li a {
 }
 .modal-wrapper{
 	width: 42%;
-	height: 60%;
+	height: 731px;
 	margin: auto;
 	padding: 20px 50px;
 	border-radius: 10px;
@@ -530,7 +530,8 @@ input[type="file"] {
 
 .img-info{
 	width: 100%;
-	height: 30px;
+	height: 50px;
+
 	margin-top: 10px;
 	margin-bottom: 25px;
 	border: none;

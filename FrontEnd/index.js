@@ -183,8 +183,8 @@ const closeModal = () =>{
     modal = null;
     
 }
+
 async function suppProjet(id){
-  
     console.log(id);
     //appel à l'api pour supprimer des projets depuis la modale  
     await fetch(`http://localhost:5678/api/works/${id}`, {
