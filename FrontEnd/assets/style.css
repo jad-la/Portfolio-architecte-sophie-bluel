@@ -373,7 +373,7 @@ nav ul li a {
 }
 .modal-wrapper{
 	width: 42%;
-	height: 731px;
+	height: 710px;
 	margin: auto;
 	padding: 20px 50px;
 	border-radius: 10px;
@@ -382,11 +382,13 @@ nav ul li a {
 
 }
 .btn-close{
-	margin-right: -40px;
+	margin-right: 0px;
 	border: none;
+	margin-top: 10px;
 	background: transparent;
 	float: right;
 	cursor: pointer;
+	font-size: 20px;
 }
 .titre-modale{
 	font-family: 'Work Sans';
@@ -456,8 +458,10 @@ nav ul li a {
 	display: none;
 }
 .btn-retour{
-	margin-left: -40px;
+	margin-left: 0px;
 	border: none;
+	font-size: 20px;
+	margin-top: 10px;
 	background-color: transparent;
 }
 .ajout-projet{
@@ -499,7 +503,7 @@ input[type="file"] + label {
 	margin-bottom: 15px;
 }
 .label-image span{
-	width: 85%;
+	width: 55%;
 	height: 28px;
 	padding-top: 10px;
 	background-color: #CBD6DC;
@@ -516,7 +520,7 @@ input[type="file"] {
 	overflow: hidden;
 }
 .bloc-tele-img #image-preview{
-	width: 50%;
+	width: 30%;
 	height: 100%;
 	border: none;
 	display: none;
@@ -527,11 +531,23 @@ input[type="file"] {
 	
 
 }
+select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='10'%3E%3Cpath d='M13.7 0.3c-0.4-0.4-1-0.4-1.4 0L7 6.6 1.7 1.3c-0.4-0.4-1-0.4-1.4 0s-0.4 1 0 1.4l6 6c0.2 0.2 0.5 0.3 0.7 0.3s0.5-0.1 0.7-0.3l6-6c0.4-0.4 0.4-1 0-1.4z' stroke='%23333' stroke-width='0.5' fill='none'/%3E%3C/svg%3E") no-repeat;
+	background-position: right 20px top 50%;
+	background-size: 12px 8px;
+	border: none;
+	padding-left: 5px;
+	color: #6C6C6C;
+}
 
 .img-info{
-	width: 100%;
+	width: 98%;
 	height: 50px;
-
+	background-color: transparent;
+	color:#444444;
 	margin-top: 10px;
 	margin-bottom: 25px;
 	border: none;
@@ -539,9 +555,9 @@ input[type="file"] {
 }
 
 .btn-ajout-projet{
-	width: 40%;
+	width: 50%;
 	height: 36px;
-	margin: 30px auto 0;
+	margin: 40px auto 0;
 	background-color: #A7A7A7;
 	font-family: 'Syne';
 	font-style: normal;

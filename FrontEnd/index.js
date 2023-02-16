@@ -10,7 +10,7 @@ async function getData(url) {
     const response = await fetch(url);
     return await response.json();
   } catch (error) {
-    console.error(`Error fetching data from ${url}:`, error);
+    console.error(`Erreur lors de la récupération des données depuis${url}:`, error);
   }
 }
 
@@ -184,33 +184,28 @@ const closeModal = () =>{
     
 }
 
-async function suppProjet(id){
-    console.log(id);
-    //appel à l'api pour supprimer des projets depuis la modale  
-    await fetch(`http://localhost:5678/api/works/${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-    })
-    .then(async response => {
-    //condition pour vérifier si on a un statut est 200 pour pouvoir supprimer l'élément
-        if (!response.ok) {
-          console.log(response)
-          console.log('Impossible de supprimer le projet');
-        }
-        console.log('Le projet est supprimé');
-        await genererModale(projects);
-        await genererProjets();
-        closeModal(); 
-    })
-    .catch(erreur => {
-      console.log(erreur);
-    });
-};
+// fonction pour ouvrir la modale
+const openModal = (e) => {
+  if (e){
+      e.preventDefault();
+  }
+  containerModaleProjets = document.querySelector('.projet-modif');
+  modal = document.querySelector('#modal3');
+  //rendre la modale visible
+  modal.style.display = 'flex';
+  modal.removeAttribute('aria-hidden');
+  modal.addEventListener('click', closeModal)
+  modal.querySelector('.btn-close').addEventListener('click', closeModal)
+  modal.querySelector('.modal-stop').addEventListener('click', stopPropagation)
+  genererModale(projects);
+}
 
+
+const stopPropagation = (e) =>{
+  e.stopPropagation();
+}
+
+// fonction pour générer les projets dans la modale
 async function genererModale(projects) {
       containerModaleProjets.innerHTML = '';
   try {
@@ -242,32 +237,37 @@ async function genererModale(projects) {
   }
 }
 
-
-// fonction pour ouvrir la modale
-const openModal = (e) => {
-    if (e){
-        e.preventDefault();
-    }
-    page = "index-edit"
-    containerModaleProjets = document.querySelector('.projet-modif');
-    modal = document.querySelector('#modal3');
-    //rendre la modale visible
-    modal.style.display = 'flex';
-    modal.removeAttribute('aria-hidden');
-    modal.addEventListener('click', closeModal)
-    modal.querySelector('.btn-close').addEventListener('click', closeModal)
-    modal.querySelector('.modal-stop').addEventListener('click', stopPropagation)
-    genererModale(projects);
-}
-
-
-const stopPropagation = (e) =>{
-    e.stopPropagation();
-}
+// fonction pour supprimer un projet
+async function suppProjet(id){
+  
+  //appel à l'api pour supprimer des projets depuis la modale  
+  await fetch(`http://localhost:5678/api/works/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+  })
+  .then(async response => {
+  //condition pour vérifier si on a un statut est 200 pour pouvoir supprimer l'élément
+      if (!response.ok) {
+        console.log('Impossible de supprimer le projet');
+      }
+      console.log('Le projet est supprimé');
+      await genererModale(projects);
+      await genererProjets();
+      closeModal(); 
+  })
+  .catch(erreur => {
+    console.log(erreur);
+  });
+};
 
 // ************modale 2 partie chargment de l'image**********
 const retourModale = document.querySelector('.btn-retour').addEventListener('click', goBack)
-//fuction pour ouvrir le formulaire et fermer la modale
+
+// fonction lorsque je clique sur le 'ajouter photo' le wrapper1 se ferme pour ouvrir le wrapper2
 function addPhoto() {
     document.querySelector(".wrapper1").style.display = "none";
     document.querySelector(".wrapper2").style.display = "block";
@@ -293,16 +293,13 @@ const inputs = [imageInput, titleInput, categorySelect];
 
 
 imageInput.addEventListener('change', function() {
-     
       const file = this.files[0];
-    
       if (file) {
         const reader = new FileReader();
-    
+
         reader.addEventListener('load', function() {
           imgPreview.setAttribute('src', this.result);
         });
-    
         reader.readAsDataURL(file);
       }
       labelImage.style.display= "none";
@@ -346,8 +343,7 @@ function validateForm(event) {
       const errorMessages = form.querySelectorAll('.message-erreur');
       errorMessages.forEach(errorMessage => errorMessage.remove());
 
-      //supprime le message déjà existant
-      
+      //supprime le message déjà existant dès qu'il y a un changement dans l"input
       inputs.forEach(input => {
           input.addEventListener('input', () => suppMessageErreur(input));
       });
@@ -372,9 +368,9 @@ function validateForm(event) {
 
       // Si il y a une erreur, arrête la fonction
       if (isError) return;
-        console.log(imageInput.value, titleInput.value, categorySelect.value );
-        submitForm(formData); 
-      console.log(imageInput.value, titleInput.value, categorySelect.value );
+
+      // sinon il faut exécuter ce qui suit
+      submitForm(formData); 
       document.querySelector(".wrapper2").style.display = "none";
       document.querySelector(".wrapper1").style.display = "block";
 
@@ -423,7 +419,6 @@ const checkInputs = function() {
     submitButton.style.backgroundColor = '#1D6154';
   } else {
     submitButton.setAttribute("disabled", "disabled");
-    
   }
 };
 
@@ -437,7 +432,7 @@ form.addEventListener('submit',  (event)=>{
       validateForm(event)
       form.reset()  
       imgPreview.src = '';
-      labelImage.style.display= "block";
+      labelImage.style.display= "flex";
       submitButton.setAttribute('disabled', true)
       submitButton.style.backgroundColor = '#A7A7A7';
       imgPreview.style.display= 'none';
