@@ -415,16 +415,23 @@ nav ul li a {
 	width: 100%;
 }
 .projet-modif div{
-	width: 13px;
-	height: 13px;
 	padding-top: 2px;
 	position: absolute;
-	top: 2px;
+	top: 5px;
 	right: 3px;
-	background-color: #000;
-	text-align: center;
 	color: white;
 	font-size: 10px;
+}
+/* .spanIconeMove{
+	display: none;
+} */
+.spanIcone{
+	padding: 2px;
+	width: 13px;
+	height: 13px;
+	margin-left: 3px;
+	background-color: #000;
+	text-align: center;
 }
 .ligne-separation{
 	padding-bottom: 35px;

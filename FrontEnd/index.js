@@ -50,8 +50,6 @@ async function filtreCategories() {
   tousLesProjets.classList.add('filtre');
   tousLesProjets.textContent = "Tous";
   tousLesProjets.addEventListener("click", async function() {
-    const response = await fetch('http://localhost:5678/api/works');
-    const projects = await response.json();
     genererProjets(projects);
     
     const buttons = containerFiltres.querySelectorAll(".filtre");
@@ -61,14 +59,16 @@ async function filtreCategories() {
     // Ajouter la classe 'active' au bouton cliqué
     tousLesProjets.classList.add("active");
   });
+  // Activer le bouton "Tous les projets" par défaut
+  tousLesProjets.click();
   containerFiltres.appendChild(tousLesProjets);
   categories.forEach(categorie => {
     const button = document.createElement("button");
     button.classList.add('filtre');
     button.textContent = categorie.name;
     button.addEventListener("click", async () => {
-      const travaux = await getData('http://localhost:5678/api/works');
-      const filteredProjects = travaux.filter(project => project.category.name === categorie.name);
+      const projects = await getData('http://localhost:5678/api/works');
+      const filteredProjects = projects.filter(project => project.category.name === categorie.name);
       genererProjets(filteredProjects);
       const buttons = containerFiltres.querySelectorAll(".filtre");
       buttons.forEach(btn => {
@@ -122,6 +122,10 @@ window.addEventListener("load", () => {
       const btnEdition = document.createElement('button');
       btnEdition.classList.add("btn-modif");
       btnEdition.innerText= 'publier les changements';
+      btnEdition.addEventListener('click', ()=>{
+        logoutUser();
+        window.location.assign("index.html")
+      })
       banniereEdit.appendChild(btnEdition);
       console.log(entete);
 
@@ -175,10 +179,8 @@ const closeModal = () =>{
     modal.style.display = 'none';
     modal.setAttribute('aria-hidden', 'true');
     modal.removeEventListener('click', closeModal);
-    modal.querySelector('.btn-close').removeEventListener('click', closeModal)
+    modal.querySelectorAll('.btn-close').forEach(btn => btn.addEventListener('click', closeModal));
     modal.querySelector('.modal-stop').removeEventListener('click', stopPropagation)
-    const modaleAjout = document.querySelector('.close-2');
-    modaleAjout.addEventListener('click', closeModal);
     //on revient sur la valeur initial de la modale
     modal = null;
     
@@ -195,7 +197,7 @@ const openModal = (e) => {
   modal.style.display = 'flex';
   modal.removeAttribute('aria-hidden');
   modal.addEventListener('click', closeModal)
-  modal.querySelector('.btn-close').addEventListener('click', closeModal)
+  modal.querySelectorAll('.btn-close').forEach(btn => btn.addEventListener('click', closeModal));
   modal.querySelector('.modal-stop').addEventListener('click', stopPropagation)
   genererModale(projects);
 }
@@ -216,22 +218,42 @@ async function genererModale(projects) {
           const img = document.createElement("img");
           const figcaption = document.createElement("figcaption");
           const block = document.createElement("div"); 
+          const spanIconeMove = document.createElement('span')
+          const iconeMove = document.createElement('i')
+          const spanIconeCorbeil = document.createElement('span')
           const iconeCorbeil = document.createElement("i");
+          
+
           // ajout de class pour pouvoir changer la forme en css
+          spanIconeMove.classList.add('spanIcone', 'spanIconeMove')
+          iconeMove.classList.add('fa-solid','fa-up-down-left-right')
+          spanIconeCorbeil.classList.add('spanIcone')
           iconeCorbeil.classList.add("fa-regular","fa-trash-can");
+          
           img.src = project.imageUrl;
+          // Ajoutez un événement "mouseover" à l'élément pour afficher l'icône
+          img.addEventListener("mouseover", function() {
+            block.insertBefore(spanIconeMove, block.firstChild);
+          });
+          
+          // Ajoutez un événement "mouseout" à l'élément pour supprimer l'icône
+          img.addEventListener("mouseout", function() {
+            block.removeChild(spanIconeMove);;
+          });
           img.setAttribute("crossorigin", "anonymous");
-          figcaption.textContent = "Editer";
-          block.appendChild(iconeCorbeil);
+          figcaption.textContent = "éditer";
+          block.appendChild(spanIconeCorbeil);
+          spanIconeMove.appendChild(iconeMove);
+          spanIconeCorbeil.appendChild(iconeCorbeil);
           figure.appendChild(block);
           figure.appendChild(img);
           figure.appendChild(figcaption);
           containerModaleProjets.appendChild(figure);
           iconeCorbeil.addEventListener('click', async function(event) {
-              event.preventDefault();
-              suppProjet(project.id);
+            event.preventDefault();
+            suppProjet(project.id);
           });
-      });
+      })
   } catch(error) {
     console.error('Il y a eu une erreur lors de la récupération des données :', error);
   }
@@ -246,7 +268,7 @@ async function suppProjet(id){
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+       'Authorization': `Bearer ${token}`
       }
   })
   .then(async response => {
@@ -304,7 +326,7 @@ imageInput.addEventListener('change', function() {
       }
       labelImage.style.display= "none";
       imgPreview.style.display = 'block';
-    });
+});
 
 
 //  partie qui concerne l'envoi d'un nouveau projet 

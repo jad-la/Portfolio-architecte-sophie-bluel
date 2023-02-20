@@ -1,4 +1,3 @@
-
 // ****************connexion****************
 //variable pour cibler le formulaire depuis le DOM
 const formConnexion = document.getElementById('form-connexion');
